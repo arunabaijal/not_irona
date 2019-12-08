@@ -34,10 +34,12 @@
 #ifndef INCLUDE_NAVIGATION_HPP_
 #define INCLUDE_NAVIGATION_HPP_
 
+#include <ros/ros.h>
 #include <iostream>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <vector>
+#include <amcl/map/map.h>
 #include "INavigation.hpp"
 
 
@@ -60,13 +62,13 @@ class Navigation : public INavigation {
      * @param 
      * @return  boolean value to determine 
      */
-    bool getToLocation(const move_base_msgs::MoveBaseGoal &goal_pose);
+    bool getToLocation(move_base_msgs::MoveBaseGoal &goal_pose);
     /**
      * @brief   funtion to change the orientation for detecting the object.
      * @param   move_base_msgs ROS message to move towards the goal
      * @return  boolean value to determine 
      */
-    bool changeOrientation(const move_base_msgs::MoveBaseGoal &goal_pose);
+    bool changeOrientation(move_base_msgs::MoveBaseGoal &goal_pose);
     /**
      * @brief   function to publish the ROS navigation messages
      * @param   msg message to be sent to on this topic
@@ -84,14 +86,15 @@ class Navigation : public INavigation {
 
    void recieveTagPose();
    void recieveGoalPose();
-   void goalCheckCallback(const move_base_msgs::MoveBaseGoalConstPtr &goal_pose);   
-
+   void goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose);   
+   void goalTest(float x, float y);
  private:
     std::vector<float> location;
     // cv::Mat map;
     ros::NodeHandle handler;
     ros::Subscriber sub;
     ros::Publisher pub;
+    ros::ServiceClient client;
     bool goalCheck;
 };
 

@@ -38,10 +38,11 @@
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 Navigation::Navigation() {
+    pub = handler.advertise<geometry_msgs::PoseStamped>("boxPoses", 10, true);
+
 }
 
-
-bool Navigation::getToLocation(const move_base_msgs::MoveBaseGoal &goal_pose) {
+bool Navigation::getToLocation(move_base_msgs::MoveBaseGoal &goal_pose) {
     // Spinning a thread by default
     MoveBaseClient ac("move_base", true);
 
@@ -66,17 +67,48 @@ bool Navigation::getToLocation(const move_base_msgs::MoveBaseGoal &goal_pose) {
 
 void Navigation::recieveTagPose() {
     // handler.subscribe()
-} 
+}
 
-void Navigation::goalCheckCallback(const move_base_msgs::MoveBaseGoalConstPtr &goal_pose) {
+// void Navigation::initializeGlobal() {
+//     client = handler.serviceClient<std_srvs::Empty>("/global_localization");
+//     std_srvs::Empty srv;
+//     client.call(srv);
+// }
+
+void Navigation::goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose) {
     std::cout << "it's coming here\n";
     goalCheck = true;
+    move_base_msgs::MoveBaseGoal goal;
+    goal.target_pose.header.frame_id = goal_pose->header.frame_id;
+    goal.target_pose.header.stamp = goal_pose->header.stamp;
+    goal.target_pose.pose.position = goal_pose->pose.position;
+    goal.target_pose.pose.orientation = goal_pose->pose.orientation;
+    getToLocation(goal);
+}
+
+void Navigation::goalTest(float x, float y) {
+    geometry_msgs::PoseStamped check_pose;
+    check_pose.header.frame_id = "map";
+    check_pose.header.stamp = ros::Time::now();
+    check_pose.pose.position.x = x;
+    check_pose.pose.position.y = y;
+    check_pose.pose.orientation.w = 1;
+    // while (pub.getNumSubscribers() < 1);
+    int i = 2;
+    // while (i > 0) {
+        pub.publish(check_pose);
+    //     i--;
+    // }
+    // ros::spinOnce();
+
+    std::cout << "goalTest is working\n";
+
 }
 
 void Navigation::recieveGoalPose() {
-    sub = handler.subscribe("move_base_simple/goal", 10, &Navigation::goalCheckCallback, this);
+    sub = handler.subscribe("/boxPoses", 1, &Navigation::goalCheckCallback, this);
     // std::cout << "it's coming here\n";
-    ros::spin();
+    ros::spinOnce();
 
 }
 

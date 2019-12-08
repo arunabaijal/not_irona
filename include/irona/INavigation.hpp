@@ -55,7 +55,7 @@ class INavigation {
      * @param   move_base_msgs ROS message to move towards the goal
      * @return  boolean value to determine 
      */
-    virtual bool getToLocation(const move_base_msgs::MoveBaseGoal &goal_msg) = 0;
+    virtual bool getToLocation(move_base_msgs::MoveBaseGoal &goal_pose) = 0;
     /**
      * @brief   funtion to change the orientation for detecting the object.
      * @param   move_base_msgs ROS message to move towards the goal
@@ -77,7 +77,8 @@ class INavigation {
 
     virtual void recieveTagPose() = 0;
     virtual void recieveGoalPose() = 0;
-    virtual void goalCheckCallback(const move_base_msgs::MoveBaseGoalConstPtr &goal_pose) = 0;   
+    virtual void goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose) = 0;   
+    virtual void goalTest(float x, float y) = 0;
 
 };
 
