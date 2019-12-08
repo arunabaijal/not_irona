@@ -4,6 +4,8 @@ project(irona)
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -12,6 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
   move_base_msgs
   roscpp
 )
+
+find_package( OpenCV 3.3.1 REQUIRED highgui imgproc core videoio imgcodecs aruco)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -118,6 +122,8 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${CMAKE_SOURCE_DIR}/include
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -194,10 +200,15 @@ include_directories(
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
-add_executable(irona src/main.cpp src/Navigation.cpp)
+add_executable(irona src/main.cpp src/Navigation.cpp src/UserInterface.cpp src/WarehouseManager.cpp)
 target_link_libraries(irona
   ${catkin_LIBRARIES}
+  ${OpenCV_LIBS}
 )
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+#add_subdirectory(src)
+#add_subdirectory(test)
+#add_subdirectory(vendor/googletest/)

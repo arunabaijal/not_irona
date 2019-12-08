@@ -32,7 +32,7 @@
  */
 
 
-#include "../include/irona/Navigation.hpp"
+#include "Navigation.hpp"
 
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;

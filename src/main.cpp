@@ -31,18 +31,79 @@
  * @brief     Navigation class Implementation
  */
 
-#include "../include/irona/Navigation.hpp"
-#include "../include/irona/INavigation.hpp"
+#include "Navigation.hpp"
+#include "INavigation.hpp"
+#include "UserInterface.hpp"
+#include "WarehouseManager.hpp"
 
 int main(int argc, char* argv[]) {
-    ros::init(argc, argv, "irona");
-    INavigation *p = new Navigation();
-    p->goalTest(1,1);
-    // ros::Duration(30).sleep();
-    p->recieveGoalPose();
-    p->goalTest(5,3);
-    p->recieveGoalPose();
+  ros::init(argc, argv, "irona");
+  UserInterface ui;
+  std::map<std::string, cv::Mat> objectMap = ui.getWarehouseManager().getObjectMap();
+  std::cout << "I am Irona, how can I help you?" << std::endl;
+  std::cout << "This is the current list of item present in the" \
+          " warehouse: " << std::endl;
+  for (auto object : objectMap) {
+      std::cout << object.first << std::endl;
+  }
+  std::cout << std::endl;
+  std::cout << "Do you want to add an item to the warehouse list [y/n]? " << \
+                std::flush;
+  std::string response;
+  std::cin >> response;
 
-    delete p;
-    return 0;
+  if (response == "y" || response == "Y") {
+      std::vector<std::string> itemList;
+      std::cout << "Enter the names of the object [separated with spaces]: "\
+                  << std::endl;
+      std::string newObject, object;
+      std::cin.ignore();
+      std::getline(std::cin, newObject);
+      size_t pos = 0;
+      std::string token;
+      std::string del = " ";
+      // Loop to break the string of list of objects into object names
+      while ((pos = newObject.find(del)) != std::string::npos) {
+          token = newObject.substr(0, pos);
+          itemList.emplace_back(token);
+          newObject.erase(0, pos + del.length());
+      }
+    itemList.emplace_back(newObject);
+    ui.addItem(itemList);
+    std::cout << "List of items in warehouse now: " << std::endl;
+    for (auto object : ui.getWarehouseManager().getObjectMap()) {
+      std::cout << object.first << std::endl;
+    }
+  }
+  else if (response != "n" && response != "N") {
+    std::cout << "Invalid Input !!! Exiting... Thank you for using Irona" \
+              << std::endl;
+    return -1;
+  }
+  std::vector<std::string> itemList;
+  std::cout << "Please enter list of order items [separated with spaces]: "\
+              << std::endl;
+              std::string newObject, object;
+  std::cin.ignore();
+  std::getline(std::cin, newObject);
+  size_t pos = 0;
+  std::string token;
+  std::string del = " ";
+  // Loop to break the string of list of objects into object names
+  while ((pos = newObject.find(del)) != std::string::npos) {
+      token = newObject.substr(0, pos);
+      itemList.emplace_back(token);
+      newObject.erase(0, pos + del.length());
+  }
+  itemList.emplace_back(newObject);
+  ui.setOrderList(itemList);
+  INavigation *p = new Navigation();
+  p->goalTest(1,1);
+  // ros::Duration(30).sleep();
+  p->recieveGoalPose();
+  p->goalTest(5,3);
+  p->recieveGoalPose();
+  delete p;
+  return 0;
 }
+
