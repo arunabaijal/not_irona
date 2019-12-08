@@ -104,6 +104,15 @@ before_install:
   - sudo -H apt-get install -y ros-kinetic-gmapping --allow-unauthenticated
   - sudo -H apt-get install -y ros-kinetic-range-sensor-layer --allow-unauthenticated
   - sudo -H apt-get install -y ros-kinetic-moveit-simple-controller-manager --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-depthimage-to-laserscan --allow-unauthenticated
+  - sudo -H apt-get install -y python-pyside --allow-unauthenticated
+  - sudo -H apt-get install -y libpyside-dev --allow-unauthenticated
+  - sudo -H apt-get install -y libshiboken-dev --allow-unauthenticated
+  - sudo -H apt-get install -y shiboken --allow-unauthenticated
+  - sudo -H apt-get install -y python-qt4 --allow-unauthenticated
+  - sudo -H apt-get install -y python-qt4-dev --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-amcl --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-openni2-launch --allow-unauthenticated
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
