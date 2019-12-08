@@ -118,6 +118,9 @@ before_install:
   - sudo -H apt-get install -y ros-kinetic-polled-camera --allow-unauthenticated
   - sudo -H apt-get install -y ros-kinetic-laser-filters --allow-unauthenticated
   - sudo -H apt-get install -y libgazebo7-dev --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-tf2-geometry-msgs --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-image-transport-plugins --allow-unauthenticated
+  - sudo -H apt-get install -y gazebo7 --allow-unauthenticated
   - 
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
