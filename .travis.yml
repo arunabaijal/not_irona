@@ -84,6 +84,26 @@ before_install:
   - sudo -H apt-get install -y ros-kinetic-moveit-planners-ompl --allow-unauthenticated
   - sudo -H apt-get install -y ros-kinetic-teb-local-planner --allow-unauthenticated
   - sudo -H apt-get install -y ros-kinetic-diagnostic-updater --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-global-planner --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-urdf-test --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-fake-localization --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-pointcloud-to-laserscan --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-moveit-ros-visualization --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-moveit-ros-planning-interface --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-octomap-server --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-dwa-local-planner --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-moveit-commander --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-libuvc-camera --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-four-wheel-steering-msgs --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-joy --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-uvc-camera --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-map-server --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-twist-mux --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-sick-tim --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-moveit-ros-move-group --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-gmapping --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-range-sensor-layer --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-moveit-simple-controller-manager --allow-unauthenticated
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
