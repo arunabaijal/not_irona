@@ -37,6 +37,6 @@
 int main(int argc, char** argv) {
   ros::init(argc, argv, "testIrona");
   ::testing::InitGoogleTest(&argc, argv);
-  #ros::NodeHandle nh;
+  // ros::NodeHandle nh;
   return RUN_ALL_TESTS();
 }
