@@ -113,6 +113,12 @@ before_install:
   - sudo -H apt-get install -y python-qt4-dev --allow-unauthenticated
   - sudo -H apt-get install -y ros-kinetic-amcl --allow-unauthenticated
   - sudo -H apt-get install -y ros-kinetic-openni2-launch --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-rqt-gui-py --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-joint-state-publisher --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-polled-camera --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-laser-filters --allow-unauthenticated
+  - sudo -H apt-get install -y libgazebo7-dev --allow-unauthenticated
+  - 
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
