@@ -13,9 +13,13 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   move_base_msgs
   roscpp
+  rospy
+  sensor_msgs
+  std_msgs
+  geometry_msgs
 )
 
-find_package( OpenCV 3.3.1 REQUIRED highgui imgproc core videoio imgcodecs aruco)
+find_package( OpenCV REQUIRED highgui imgproc core videoio imgcodecs aruco)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -120,7 +124,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
   ${CMAKE_SOURCE_DIR}/include
   ${OpenCV_INCLUDE_DIRS}
@@ -196,16 +200,41 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_irona.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+#  catkin_add_gtest(${PROJECT_NAME}-test test/test.cpp
+#     test/ControllerTest.cpp
+#     test/DetectionTest.cpp
+#     #NavigationTest.cpp
+#     test/UserInterfaceTest.cpp
+#     test/WarehouseManagerTest.cpp)
+#  if(TARGET ${PROJECT_NAME}-test)
+#    target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+#  endif()
+
 add_executable(irona src/main.cpp src/Navigation.cpp src/UserInterface.cpp src/WarehouseManager.cpp)
 target_link_libraries(irona
   ${catkin_LIBRARIES}
   ${OpenCV_LIBS}
 )
 
+
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  catkin_add_gtest(testIrona test/test.cpp
+    #test/ControllerTest.cpp
+    #test/DetectionTest.cpp
+    #NavigationTest.cpp
+    test/UserInterfaceTest.cpp
+    test/WarehouseManagerTest.cpp
+    src/UserInterface.cpp
+    src/WarehouseManager.cpp
+    #src/main.cpp
+    src/Navigation.cpp)
+  target_link_libraries(testIrona ${catkin_LIBRARIES} ${OpenCV_LIBS})
+  add_dependencies(testIrona irona ${catkin_EXPORTED_TARGETS})
+endif()
+
+
+#add_dependencies(irona irona)
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
