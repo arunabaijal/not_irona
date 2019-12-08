@@ -81,6 +81,7 @@ before_install:
   # - sudo -H ros-kinetic-python-orocos-kdl ros-kinetic-realtime-tools --allow-unauthenticated
   - sudo -H apt-get install ros-kinetic-eband-local-planner --allow-unauthenticated
   - sudo -H apt-get install -y ros-kinetic-moveit-planners-ompl --allow-unauthenticated
+  - sudo -H apt-get install -y ros-kinetic-teb-local-planner --allow-unauthenticated
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
