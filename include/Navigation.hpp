@@ -88,6 +88,7 @@ class Navigation : public INavigation {
    void recieveGoalPose();
    void goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose);   
    void goalTest(float x, float y);
+   
  private:
     std::vector<float> location;
     // cv::Mat map;

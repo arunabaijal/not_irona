@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   geometry_msgs
+  tf
 )
 
 find_package( OpenCV REQUIRED highgui imgproc core videoio imgcodecs aruco)
@@ -210,8 +211,18 @@ include_directories(
 #  if(TARGET ${PROJECT_NAME}-test)
 #    target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 #  endif()
+add_executable(navigation src/Navigation.cpp)
+target_link_libraries(navigation
+  ${catkin_LIBRARIES}
+)
 
-add_executable(irona src/main.cpp src/Navigation.cpp src/UserInterface.cpp src/WarehouseManager.cpp)
+add_executable(detection src/Detection.cpp)
+target_link_libraries(detection
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBS}
+)
+
+add_executable(irona src/main.cpp src/UserInterface.cpp src/WarehouseManager.cpp)
 target_link_libraries(irona
   ${catkin_LIBRARIES}
   ${OpenCV_LIBS}
