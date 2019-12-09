@@ -21,7 +21,7 @@ Kartik Madhira: I am in my third semester of M.Engg. in Robotics at University o
 
 ## Product Backlog 
 [![Packagist](https://img.shields.io/badge/AIP-Backlog-orange)]
-(https://docs.google.com/spreadsheets/d/1VPSi_rlRrJmCR6A3MWS8m1NzFee9nrs-7Fvtm07FDjw/edit#gid=0)
+(https://docs.google.com/spreadsheets/d/1VPSi_rlRrJmCR6A3MWS8m1NzFee9nrs-7Fvtm07FDjw/edit?usp=sharing)
 [![Packagist](https://img.shields.io/badge/AIP-Sprint-brightgreen)]
 (https://docs.google.com/document/d/1W-qpNAWPG2eSJVatFzp8255uD5t4aVNCYX3F4T-HzEI/edit)
 
