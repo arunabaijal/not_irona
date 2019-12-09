@@ -9,4 +9,6 @@
   </include>
 <include file="$(find irona)/launch/detection.launch">
   </include>
+<include file="$(find irona)/launch/navigation.launch">
+  </include>
 </launch>

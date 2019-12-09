@@ -35,13 +35,14 @@
 #include "../include/IDetection.hpp"
 
 Detection::Detection() {
-    tagSub = handler.subscribe("/ironaTags/arucoDetected", 11, &Detection::detectionCallback, this);
+    tagSub = handler.subscribe("/ironaTags/arucoDetected", 1, &Detection::detectionCallback, this);
     pub = handler.advertise<geometry_msgs::PoseStamped>("boxPoses", 1, true);
 }
 
 void Detection::detectionCallback(const std_msgs::Bool::ConstPtr& checkDetect) {
     this->tagDetected = *checkDetect;
     if (detectTag()) {
+		ROS_INFO_STREAM("A Tag has been detected!");
         publishBoxPoses();
     }
 }

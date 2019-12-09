@@ -75,10 +75,10 @@ class INavigation {
     //  */
     // virtual void subscribeNavigation(ROS::msg msg) = 0;
 
-    virtual void recieveTagPose() = 0;
-    virtual void recieveGoalPose() = 0;
+    // virtual void recieveTagPose() = 0;
+    // virtual void recieveGoalPose() = 0;
     virtual void goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose) = 0;   
-    virtual void goalTest(float x, float y) = 0;
+    virtual void goalTest(float x, float y, float theta) = 0;
 
 };
 

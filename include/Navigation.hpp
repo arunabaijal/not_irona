@@ -38,6 +38,7 @@
 #include <iostream>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
+#include <tf/tf.h>
 #include <vector>
 #include <amcl/map/map.h>
 #include "INavigation.hpp"
@@ -84,10 +85,10 @@ class Navigation : public INavigation {
 
    //----------------------------------------
 
-   void recieveTagPose();
-   void recieveGoalPose();
+  //  void recieveTagPose();
+  //  void recieveGoalPose();
    void goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose);   
-   void goalTest(float x, float y);
+   void goalTest(float x, float y, float theta);
    
  private:
     std::vector<float> location;

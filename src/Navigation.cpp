@@ -66,9 +66,9 @@ bool Navigation::getToLocation(move_base_msgs::MoveBaseGoal &goal_pose) {
     return true;
 }
 
-void Navigation::recieveTagPose() {
-    // handler.subscribe()
-}
+// void Navigation::recieveTagPose() {
+//     // handler.subscribe()
+// }
 
 void Navigation::goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose) {
     std::cout << "it's coming here\n";
@@ -81,33 +81,23 @@ void Navigation::goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pos
     getToLocation(goal);
 }
 
-void Navigation::goalTest(float x, float y) {
+void Navigation::goalTest(float x, float y, float theta) {
     geometry_msgs::PoseStamped check_pose;
     check_pose.header.frame_id = "map";
     check_pose.header.stamp = ros::Time::now();
     check_pose.pose.position.x = x;
     check_pose.pose.position.y = y;
-    check_pose.pose.orientation.w = 1;
-    // while (pub.getNumSubscribers() < 1);
-    int i = 2;
-    // while (i > 0) {
-        pub.publish(check_pose);
-    //     i--;
-    // }
-    // ros::spinOnce();
-
-    std::cout << "goalTest is working\n";
-
-}
-
-void Navigation::recieveGoalPose() {
-    // std::cout << "it's coming here\n";
-    ros::spinOnce();
+    tf::Quaternion q_rot;
+    q_rot = tf::createQuaternionFromRPY(0,0,theta);
+    check_pose.pose.orientation.x = q_rot.getX();
+    check_pose.pose.orientation.y = q_rot.getY();
+    check_pose.pose.orientation.z = q_rot.getZ();
+    check_pose.pose.orientation.w = q_rot.getW();
+    pub.publish(check_pose);
 
 }
 
 Navigation::~Navigation() {
-        std::cout << "it's coming here destroyed\n";
 
 }
 
@@ -119,6 +109,7 @@ int main(int argc, char* argv[]) {
     // p->recieveGoalPose();
     // p->goalTest(5,3);
     // p->recieveGoalPose();
+    p->goalTest(0, 0, -80);
     ros::spin();
     // delete p;
     return 0;
