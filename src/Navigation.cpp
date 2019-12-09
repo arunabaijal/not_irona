@@ -59,7 +59,7 @@ bool Navigation::getToLocation(move_base_msgs::MoveBaseGoal &goal_pose) {
     if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
         ROS_INFO("Hooray, the base moved 1 meter forward");
     else
-        ROS_INFO("The base failed to move forward 1 meter for some reason");
+        ROS_ERROR("The base failed to move forward 1 meter for some reason");
         return false;
 
     return true;

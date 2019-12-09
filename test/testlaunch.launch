@@ -1,0 +1,6 @@
+<launch>
+	<arg name="path" default="/home/aruna/tiago_public_ws/" />
+    <node pkg="rosbag" type="play" name="rosbag" output="screen" args="--clock $(arg path)src/irona/test/test.bag"/>
+    <node pkg="irona" name="irona" type="irona" />
+    <test pkg="irona" test-name="testIrona2" type="testIrona2" />
+</launch>

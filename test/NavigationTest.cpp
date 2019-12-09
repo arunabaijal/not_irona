@@ -23,51 +23,36 @@
  *******************************************************************************/
 
 /**
- * @file      WarehouseManager.cpp
+ * @file      DectectionTest.cpp
  * @author    Kartik Madhira
  * @author    Arjun Gupta
  * @author    Aruna Baijal
  * @copyright MIT License (c) 2019 Kartik Madhira, Aruna Baijal, Arjun Gupta
- * @brief     Implements WarehouseManager class
+ * @brief     Unit test for Detection class
  */
 
-#include "WarehouseManager.hpp"
-#include <exception>
-#include<string>
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include <Navigation.hpp>
+#include <ros/ros.h>
 
-WarehouseManager::WarehouseManager(bool flag) {
-  if (flag) {
-    std::vector<std::string> names{"bat", "ball", "wickets"};
-    for (auto name: names) {
-      generateArUco(name);
-    }
-  } else {
+/*TEST(navigationTest, shouldReachGoal) {
+  //ros::NodeHandle nh;
+  Navigation classUnderTest;
+  geometry_msgs::PoseStampedPtr goal_pose(new geometry_msgs::PoseStamped);
+  goal_pose->pose.position.x = 1;
+  goal_pose->pose.position.y = 1;
+  goal_pose->pose.position.z = 1;
+  goal_pose->pose.orientation.x = 1;
+  goal_pose->pose.orientation.y = 1;
+  goal_pose->pose.orientation.z = 1;
+  goal_pose->pose.orientation.w = 1;
+  goal_pose->header.frame_id = "abc";
+  goal_pose->header.stamp = ros::Time::now();
+  //goal_pose.set();
+  classUnderTest.goalCheckCallback(goal_pose);
+}*/
 
-  }
-}
-
-std::map<std::string, cv::Mat> WarehouseManager::getObjectMap() {
-  return objectMap;
-}
-
-void WarehouseManager::generateArUco(std::string nameOfObject) {
-  cv::Mat markerImage;
-  cv::Ptr<cv::aruco::Dictionary> dictionary = \
-            cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
-  cv::aruco::drawMarker(dictionary, this->objectMap.size(), 200, markerImage, 1);
-  this->objectMap.emplace(nameOfObject, markerImage);
-  /*cv::imshow("show", markerImage);
-  cv::waitKey(0);
-  cv::imwrite("~/" + std::to_string(this->objectMap.size()) + ".png", markerImage);*/
-}
-
-cv::Mat WarehouseManager::getArUco(std::string nameOfObject) {
-  if (nameOfObject.empty()) {
-    throw std::runtime_error("Invalid key for object map!");
-  }
-  return objectMap[nameOfObject];
-}
-
-WarehouseManager::~WarehouseManager() {
-
+TEST(navigationTest, shouldReachGoal) {
+  EXPECT_NO_FATAL_FAILURE(Navigation nav);
 }

@@ -33,10 +33,14 @@
 #include <gtest/gtest.h>
 #include <ros/ros.h>
 #include <ros/service_client.h>
+#include <tf/transform_listener.h>
+#include <move_base/move_base.h>
+#include <move_base_msgs/MoveBaseAction.h>
+#include <actionlib/client/simple_action_client.h>
 
 int main(int argc, char** argv) {
-  ros::init(argc, argv, "testIrona");
+  ros::init(argc, argv, "testIrona2");
   ::testing::InitGoogleTest(&argc, argv);
-  // ros::NodeHandle nh;
+  ros::NodeHandle nh;
   return RUN_ALL_TESTS();
 }

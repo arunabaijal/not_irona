@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   move_base_msgs
   roscpp
   rospy
+  rosbag
   sensor_msgs
   std_msgs
   geometry_msgs
@@ -219,18 +220,21 @@ target_link_libraries(irona
 
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
-  catkin_add_gtest(testIrona test/test.cpp
-    #test/ControllerTest.cpp
-    #test/DetectionTest.cpp
-    #NavigationTest.cpp
-    test/UserInterfaceTest.cpp
-    test/WarehouseManagerTest.cpp
-    src/UserInterface.cpp
-    src/WarehouseManager.cpp
-    #src/main.cpp
+#   catkin_add_gtest(testIrona test/test.cpp
+#     #test/ControllerTest.cpp
+#     #test/DetectionTest.cpp
+#     test/UserInterfaceTest.cpp
+#     test/WarehouseManagerTest.cpp
+#     src/UserInterface.cpp
+#     src/WarehouseManager.cpp
+#     #src/main.cpp
+#     src/Navigation.cpp)
+  add_rostest_gtest(testIrona2 test/test.cpp test/NavigationTest.cpp
     src/Navigation.cpp)
-  target_link_libraries(testIrona ${catkin_LIBRARIES} ${OpenCV_LIBS})
-  add_dependencies(testIrona irona ${catkin_EXPORTED_TARGETS})
+  #target_link_libraries(testIrona ${catkin_LIBRARIES} ${OpenCV_LIBS})
+  target_link_libraries(testIrona2 ${catkin_LIBRARIES} ${OpenCV_LIBS})
+  #add_dependencies(testIrona irona ${catkin_EXPORTED_TARGETS})
+  add_dependencies(irona testIrona2 ${catkin_EXPORTED_TARGETS})
 endif()
 
 

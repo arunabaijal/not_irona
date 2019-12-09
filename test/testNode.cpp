@@ -23,51 +23,24 @@
  *******************************************************************************/
 
 /**
- * @file      WarehouseManager.cpp
+ * @file      Navigation.hpp
  * @author    Kartik Madhira
  * @author    Arjun Gupta
  * @author    Aruna Baijal
  * @copyright MIT License (c) 2019 Kartik Madhira, Aruna Baijal, Arjun Gupta
- * @brief     Implements WarehouseManager class
+ * @brief     Declares Navigation class
  */
 
-#include "WarehouseManager.hpp"
-#include <exception>
-#include<string>
+#include <move_base/move_base.h>
 
-WarehouseManager::WarehouseManager(bool flag) {
-  if (flag) {
-    std::vector<std::string> names{"bat", "ball", "wickets"};
-    for (auto name: names) {
-      generateArUco(name);
-    }
-  } else {
+int main(int argc, char** argv){
+  ros::init(argc, argv, "move_base");
+  tf::TransformListener tf(ros::Duration(10));
 
-  }
-}
+  move_base::MoveBase move_base( tf );
 
-std::map<std::string, cv::Mat> WarehouseManager::getObjectMap() {
-  return objectMap;
-}
+  //ros::MultiThreadedSpinner s;
+  ros::spin();
 
-void WarehouseManager::generateArUco(std::string nameOfObject) {
-  cv::Mat markerImage;
-  cv::Ptr<cv::aruco::Dictionary> dictionary = \
-            cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
-  cv::aruco::drawMarker(dictionary, this->objectMap.size(), 200, markerImage, 1);
-  this->objectMap.emplace(nameOfObject, markerImage);
-  /*cv::imshow("show", markerImage);
-  cv::waitKey(0);
-  cv::imwrite("~/" + std::to_string(this->objectMap.size()) + ".png", markerImage);*/
-}
-
-cv::Mat WarehouseManager::getArUco(std::string nameOfObject) {
-  if (nameOfObject.empty()) {
-    throw std::runtime_error("Invalid key for object map!");
-  }
-  return objectMap[nameOfObject];
-}
-
-WarehouseManager::~WarehouseManager() {
-
+  return(0);
 }
