@@ -23,39 +23,27 @@
  *******************************************************************************/
 
 /**
- * @file      DectectionTest.cpp
+ * @file      NavigationMain.cpp
  * @author    Kartik Madhira
  * @author    Arjun Gupta
  * @author    Aruna Baijal
  * @copyright MIT License (c) 2019 Kartik Madhira, Aruna Baijal, Arjun Gupta
- * @brief     Unit test for Detection class
+ * @brief     main file for Navigation node
  */
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <Navigation.hpp>
 #include <ros/ros.h>
+#include <ros/service_client.h>
+#include "../include/Navigation.hpp"
 
-TEST(navigationTest, shouldReachGoal) {
-  //ros::NodeHandle nh;
-  Navigation classUnderTest;
-  classUnderTest.setIsTest(true);
-  geometry_msgs::PoseStampedPtr goal_pose(new geometry_msgs::PoseStamped);
-  goal_pose->pose.position.x = 1;
-  goal_pose->pose.position.y = 1;
-  goal_pose->pose.position.z = 1;
-  goal_pose->pose.orientation.x = 1;
-  goal_pose->pose.orientation.y = 1;
-  goal_pose->pose.orientation.z = 1;
-  goal_pose->pose.orientation.w = 1;
-  goal_pose->header.frame_id = "abc";
-  goal_pose->header.stamp = ros::Time::now();
-  //goal_pose.set();
-  classUnderTest.goalTest(1,1);
-  classUnderTest.goalCheckCallback(goal_pose);
-  ASSERT_TRUE(classUnderTest.getGoalCheck());
+int main(int argc, char* argv[]) {
+    ros::init(argc, argv, "navigation");
+    INavigation *p = new Navigation();
+    // p->goalTest(1,1);
+    // ros::Duration(30).sleep();
+    // p->recieveGoalPose();
+    // p->goalTest(5,3);
+    // p->recieveGoalPose();
+    ros::spin();
+    // delete p;
+    return 0;
 }
-
-/*TEST(navigationTest, shouldReachGoal) {
-  EXPECT_NO_FATAL_FAILURE(Navigation nav);
-}*/

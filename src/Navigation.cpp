@@ -32,13 +32,14 @@
  */
 
 
-#include "Navigation.hpp"
+#include "../include/Navigation.hpp"
 
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 Navigation::Navigation() {
     pub = handler.advertise<geometry_msgs::PoseStamped>("boxPoses", 10, true);
+    sub = handler.subscribe("/boxPoses", 1, &Navigation::goalCheckCallback, this);
 
 }
 
@@ -59,7 +60,7 @@ bool Navigation::getToLocation(move_base_msgs::MoveBaseGoal &goal_pose) {
     if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
         ROS_INFO("Hooray, the base moved 1 meter forward");
     else
-        ROS_ERROR("The base failed to move forward 1 meter for some reason");
+        ROS_INFO("The base failed to move forward 1 meter for some reason");
         return false;
 
     return true;
@@ -69,12 +70,6 @@ void Navigation::recieveTagPose() {
     // handler.subscribe()
 }
 
-// void Navigation::initializeGlobal() {
-//     client = handler.serviceClient<std_srvs::Empty>("/global_localization");
-//     std_srvs::Empty srv;
-//     client.call(srv);
-// }
-
 void Navigation::goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose) {
     std::cout << "it's coming here\n";
     goalCheck = true;
@@ -83,7 +78,9 @@ void Navigation::goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pos
     goal.target_pose.header.stamp = goal_pose->header.stamp;
     goal.target_pose.pose.position = goal_pose->pose.position;
     goal.target_pose.pose.orientation = goal_pose->pose.orientation;
-    getToLocation(goal);
+    if(!getIsTest()) {
+        getToLocation(goal);
+    }
 }
 
 void Navigation::goalTest(float x, float y) {
@@ -106,7 +103,6 @@ void Navigation::goalTest(float x, float y) {
 }
 
 void Navigation::recieveGoalPose() {
-    sub = handler.subscribe("/boxPoses", 1, &Navigation::goalCheckCallback, this);
     // std::cout << "it's coming here\n";
     ros::spinOnce();
 
@@ -117,4 +113,18 @@ Navigation::~Navigation() {
 
 }
 
+bool Navigation::getIsTest() {
+    return isTest;
+}
 
+void Navigation::setIsTest(bool flag) {
+    isTest = flag;
+}
+
+bool Navigation::getGoalCheck() {
+    return goalCheck;
+}
+
+void Navigation::setGoalCheck(bool flag) {
+    goalCheck = flag;
+}

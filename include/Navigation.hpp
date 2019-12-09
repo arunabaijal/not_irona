@@ -88,6 +88,11 @@ class Navigation : public INavigation {
    void recieveGoalPose();
    void goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose);   
    void goalTest(float x, float y);
+   void setIsTest(bool flag);
+   bool getIsTest();
+   void setGoalCheck(bool flag);
+   bool getGoalCheck();
+
  private:
     std::vector<float> location;
     // cv::Mat map;
@@ -96,6 +101,7 @@ class Navigation : public INavigation {
     ros::Publisher pub;
     ros::ServiceClient client;
     bool goalCheck;
+    bool isTest;
 };
 
 #endif    // INCLUDE_NAVIGATION_HPP_

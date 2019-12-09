@@ -23,39 +23,64 @@
  *******************************************************************************/
 
 /**
- * @file      DectectionTest.cpp
+ * @file      Detection.hpp
  * @author    Kartik Madhira
  * @author    Arjun Gupta
  * @author    Aruna Baijal
  * @copyright MIT License (c) 2019 Kartik Madhira, Aruna Baijal, Arjun Gupta
- * @brief     Unit test for Detection class
+ * @brief     Detection class Implementation
  */
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <Navigation.hpp>
-#include <ros/ros.h>
+#include "../include/Detection.hpp"
+#include "../include/IDetection.hpp"
 
-TEST(navigationTest, shouldReachGoal) {
-  //ros::NodeHandle nh;
-  Navigation classUnderTest;
-  classUnderTest.setIsTest(true);
-  geometry_msgs::PoseStampedPtr goal_pose(new geometry_msgs::PoseStamped);
-  goal_pose->pose.position.x = 1;
-  goal_pose->pose.position.y = 1;
-  goal_pose->pose.position.z = 1;
-  goal_pose->pose.orientation.x = 1;
-  goal_pose->pose.orientation.y = 1;
-  goal_pose->pose.orientation.z = 1;
-  goal_pose->pose.orientation.w = 1;
-  goal_pose->header.frame_id = "abc";
-  goal_pose->header.stamp = ros::Time::now();
-  //goal_pose.set();
-  classUnderTest.goalTest(1,1);
-  classUnderTest.goalCheckCallback(goal_pose);
-  ASSERT_TRUE(classUnderTest.getGoalCheck());
+Detection::Detection() {
+    tagSub = handler.subscribe("/ironaTags/arucoDetected", 11, &Detection::detectionCallback, this);
+    pub = handler.advertise<geometry_msgs::PoseStamped>("boxPoses", 1, true);
 }
 
-/*TEST(navigationTest, shouldReachGoal) {
-  EXPECT_NO_FATAL_FAILURE(Navigation nav);
-}*/
+void Detection::detectionCallback(const std_msgs::Bool::ConstPtr& checkDetect) {
+    this->tagDetected = *checkDetect;
+    if (detectTag()) {
+        publishBoxPoses();
+    }
+}
+
+bool Detection::detectTag() {
+    bool flag;
+	try{
+		flag = true;
+		listener.lookupTransform("/map", "/aruco_marker_frame", 
+                                ros::Time(0), transform);
+
+		tagPose.header.frame_id = "map";
+		tagPose.header.stamp = ros::Time::now();
+		
+		tagPose.pose.position.x = transform.getOrigin().x();
+		tagPose.pose.position.y = transform.getOrigin().y();
+		tagPose.pose.position.z = 0;
+
+		tagPose.pose.orientation.x = 0;
+		tagPose.pose.orientation.y = 0;
+		tagPose.pose.orientation.z = transform.getRotation().z();
+		tagPose.pose.orientation.w = 1;
+	}
+	catch (const std::exception&){
+		flag = false;
+	}
+	return flag;
+}
+
+void Detection::setTagId(int id) {
+    ros::param::set("/aruco_single/marker_id", id);
+	std::cout << "idhar bhi chal raha\n";
+    ros::spinOnce();
+}
+
+void Detection::publishBoxPoses() {
+    pub.publish(tagPose);
+}
+
+Detection::~Detection() {
+
+}

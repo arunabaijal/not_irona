@@ -31,13 +31,11 @@
  * @brief     Navigation class Implementation
  */
 
-#include "Navigation.hpp"
-#include "INavigation.hpp"
-#include "UserInterface.hpp"
-#include "WarehouseManager.hpp"
+#include "../include/UserInterface.hpp"
+#include "../include/WarehouseManager.hpp"
 
 int main(int argc, char* argv[]) {
-  ros::init(argc, argv, "irona");
+  // ros::init(argc, argv, "irona");
   UserInterface ui;
   std::map<std::string, cv::Mat> objectMap = ui.getWarehouseManager().getObjectMap();
   std::cout << "I am Irona, how can I help you?" << std::endl;
@@ -97,13 +95,13 @@ int main(int argc, char* argv[]) {
   }
   itemList.emplace_back(newObject);
   ui.setOrderList(itemList);
-  INavigation *p = new Navigation();
-  p->goalTest(1,1);
-  // ros::Duration(30).sleep();
-  p->recieveGoalPose();
-  p->goalTest(5,3);
-  p->recieveGoalPose();
-  delete p;
+  // INavigation *p = new Navigation();
+  // p->goalTest(1,1);
+  // // ros::Duration(30).sleep();
+  // p->recieveGoalPose();
+  // p->goalTest(5,3);
+  // p->recieveGoalPose();
+  // delete p;
   return 0;
 }
 

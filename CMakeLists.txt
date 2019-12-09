@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   geometry_msgs
+  tf
 )
 
 find_package( OpenCV REQUIRED highgui imgproc core videoio imgcodecs aruco)
@@ -210,8 +211,18 @@ include_directories(
 #  if(TARGET ${PROJECT_NAME}-test)
 #    target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 #  endif()
+add_executable(navigation src/NavigationMain.cpp src/Navigation.cpp)
+target_link_libraries(navigation
+  ${catkin_LIBRARIES}
+)
 
-add_executable(irona src/main.cpp src/Navigation.cpp src/UserInterface.cpp src/WarehouseManager.cpp)
+add_executable(detection src/DetectionMain.cpp src/Detection.cpp)
+target_link_libraries(detection
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBS}
+)
+
+add_executable(irona src/main.cpp src/UserInterface.cpp src/WarehouseManager.cpp)
 target_link_libraries(irona
   ${catkin_LIBRARIES}
   ${OpenCV_LIBS}
@@ -220,21 +231,21 @@ target_link_libraries(irona
 
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
-#   catkin_add_gtest(testIrona test/test.cpp
-#     #test/ControllerTest.cpp
-#     #test/DetectionTest.cpp
-#     test/UserInterfaceTest.cpp
-#     test/WarehouseManagerTest.cpp
-#     src/UserInterface.cpp
-#     src/WarehouseManager.cpp
-#     #src/main.cpp
-#     src/Navigation.cpp)
-  add_rostest_gtest(testIrona2 test/test.cpp test/NavigationTest.cpp
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
+  catkin_add_gtest(testIrona test/test.cpp
+    #test/ControllerTest.cpp
+    #test/DetectionTest.cpp
+    test/UserInterfaceTest.cpp
+    test/WarehouseManagerTest.cpp
+    src/UserInterface.cpp
+    src/WarehouseManager.cpp
+    #src/main.cpp
+    test/NavigationTest.cpp
     src/Navigation.cpp)
   #target_link_libraries(testIrona ${catkin_LIBRARIES} ${OpenCV_LIBS})
-  target_link_libraries(testIrona2 ${catkin_LIBRARIES} ${OpenCV_LIBS})
+  target_link_libraries(testIrona ${catkin_LIBRARIES} ${OpenCV_LIBS})
   #add_dependencies(testIrona irona ${catkin_EXPORTED_TARGETS})
-  add_dependencies(irona testIrona2 ${catkin_EXPORTED_TARGETS})
+  add_dependencies(irona testIrona ${catkin_EXPORTED_TARGETS})
 endif()
 
 
