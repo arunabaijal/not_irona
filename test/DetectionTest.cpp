@@ -34,18 +34,22 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <Detection.hpp>
-#include <opencv2/core/mat.hpp>
+#include <ros/ros.h>
 
-TEST(detectionTest, shouldFindObject) {
-  Detection classUnderTest = new Detetction();
-  cv::Mat Z = cv::Mat::zeros(720, 1280, CV_8U);
-  classUnderTest.findObject(z, z);
-  SUCCEED();
+TEST(DetectionTest, shouldDetect) {
+  //ros::NodeHandle nh;
+  Detection classUnderTest;
+  std_msgs::Bool obj;
+  obj.data = true;
+  std_msgs::Bool::ConstPtr value(new std_msgs::Bool());
+  //std_msgs::Bool::ConstPtr* value = obj;
+  //value->data = true;
+  //goal_pose.set();
+  classUnderTest.detectionCallback(value);
+  classUnderTest.setTagDetected(obj);
+  ASSERT_TRUE(classUnderTest.getTagDetected().data);
 }
 
-TEST(detectionTest, shouldProcessInput) {
-  Detection classUnderTest = new Detetction();
-  cv::Mat Z = cv::Mat::zeros(720, 1280, CV_8U);
-  classUnderTest.processInput(z);
-  SUCCEED();
-}
+/*TEST(navigationTest, shouldReachGoal) {
+  EXPECT_NO_FATAL_FAILURE(Navigation nav);
+}*/

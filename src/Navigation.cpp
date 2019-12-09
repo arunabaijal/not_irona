@@ -72,7 +72,7 @@ void Navigation::recieveTagPose() {
 
 void Navigation::goalCheckCallback(const geometry_msgs::PoseStampedPtr &goal_pose) {
     std::cout << "it's coming here\n";
-    goalCheck = true;
+    setGoalCheck(true);
     move_base_msgs::MoveBaseGoal goal;
     goal.target_pose.header.frame_id = goal_pose->header.frame_id;
     goal.target_pose.header.stamp = goal_pose->header.stamp;
