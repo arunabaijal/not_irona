@@ -50,6 +50,6 @@ TEST(DetectionTest, shouldDetect) {
   ASSERT_TRUE(classUnderTest.getTagDetected().data);
 }
 
-/*TEST(navigationTest, shouldReachGoal) {
-  EXPECT_NO_FATAL_FAILURE(Navigation nav);
-}*/
+TEST(DetectionTest, shouldCompileSuccessfully) {
+  EXPECT_NO_FATAL_FAILURE(Detection detect);
+}
